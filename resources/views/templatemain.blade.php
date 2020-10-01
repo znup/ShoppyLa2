@@ -29,7 +29,7 @@
             <li class="nav-item px-3">
                 <a class="nav-link" href="#">Dashbord</a>
             </li>
-           
+
         </ul>
         <ul class="nav navbar-nav ml-auto">
 
@@ -42,12 +42,12 @@
                     <div class="dropdown-header text-center">
                         <strong>Cuenta</strong>
                     </div>
-                    <a class="dropdown-item" href="" 
+                    <a class="dropdown-item" href=""
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-lock"></i> Cerrar sesión</a>
 
                     <form id="logout-form" action="" method="POST" style="display: none;">
-                      
+
                     </form>
                 </div>
             </li>
@@ -56,57 +56,7 @@
 
     <div class="app-body">
 
-       <div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Dashbord</a>
-                    </li>
-                    <li class="nav-title">
-                        Menú
-                    </li>
-
-                   
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-list"></i> Categorías</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-tasks"></i> Productos</a>
-                    </li>
-                      
-            
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i> Compras</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-users"></i> Proveedores</a>
-                    </li>
-                       
-                   
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-suitcase"></i> Ventas</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-users"></i> Clientes</a>
-                    </li>
-                        
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-user"></i> Usuarios</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-list"></i> Roles</a>
-                    </li>
-                        
-                    
-                </ul>
-            </nav>
-            <button class="sidebar-minimizer brand-minimizer" type="button"></button>
-        </div>
+      @include('templates.sidebar')
 
         <!-- Contenido Principal -->
        <main class="main">
@@ -120,7 +70,7 @@
                     <div class="card-header">
 
                        <h2>Listado de Categorías</h2><br/>
-                      
+
                         <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#abrirmodal">
                             <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Categoría
                         </button>
@@ -141,7 +91,7 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr class="bg-primary">
-                                   
+
                                     <th>Categoría</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>
@@ -150,17 +100,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                                 <tr>
-                                    
+
                                     <td>categoria</td>
                                     <td>descripcion</td>
                                     <td>
                                         <button type="button" class="btn btn-success btn-md">
-                                    
+
                                           <i class="fa fa-check fa-2x"></i> Activo
                                         </button>
-                                       
+
                                     </td>
 
                                     <td>
@@ -172,14 +122,14 @@
 
                                     <td>
 
-                                        
+
                                         <button type="button" class="btn btn-danger btn-sm">
                                             <i class="fa fa-lock fa-2x"></i> Desactivar
                                         </button>
-                                       
+
                                     </td>
                                 </tr>
-                               
+
                             </tbody>
                         </table>
                         <nav>
@@ -199,7 +149,7 @@
                                 <li class="page-item">
                                     <a class="page-link" href="#">4</a>
                                 </li>
-                               
+
                                 <li class="page-item">
                                     <a class="page-link" href="#">Siguiente</a>
                                 </li>
@@ -219,26 +169,26 @@
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                       
+
                         <div class="modal-body">
-                            
+
                             <div class="form-group row div-error">
-                                
+
                                 <div class="text-center text-error">
-                                    
+
                                     <div></div>
 
                                 </div>
-                            
+
                             </div>
-                             
+
 
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Categoría</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" placeholder="Nombre de categoría">
-                                       
+
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -254,7 +204,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i> Cerrar</button>
                             <button type="button" class="btn btn-success"><i class="fa fa-save fa-2x"></i> Guardar</button>
-                           
+
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -262,14 +212,14 @@
                 <!-- /.modal-dialog -->
             </div>
             <!--Fin del modal-->
-           
-            
+
+
         </main>
         <!-- /Fin del contenido principal -->
-    </div>   
+    </div>
 
     <footer class="app-footer">
-        <span><a href="#">Todos los derechos reservados!! </a> &copy; 2099</span>
+        <span><a href="#">Todos los derechos reservados!! 👻 💀</a> &copy; 2099</span>
         <span class="ml-auto">Desarrollado por <a href="">Adan P.R.</a></span>
     </footer>
 
