@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
@@ -63,4 +63,3 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 =======
 # ShoppyLa2
 Una tienda con Laravel
->>>>>>> ed1f64bc0468b66fb8f8bbac42b6463d3e13098c
