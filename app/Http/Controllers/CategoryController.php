@@ -68,7 +68,7 @@ class CategoryController extends Controller
     {
         $category =  Category::findOrFail($request-> id_category);
 
-        if($category-> condition=='1') {
+        if($category-> condition == '1') {
             $category-> condition  = '0';
             $category-> save();
         } else {

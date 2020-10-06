@@ -2,22 +2,33 @@
     <nav class="sidebar-nav">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Dashbord</a>
+                <a class="nav-link" href="{{url('home')}}" onclick="event.preventDefault(); document.getElementById('home-form').submit();"></i> Dashboard</a>
             </li>
+            <form id="home-form" action="{{url('home')}}" method="GET" style="display: none;">
+                {{csrf_field()}}
+            </form>
             <li class="nav-title">
                 Menú
             </li>
 
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-list"></i> Categorías</a>
+                <a class="nav-link" href="{{url('category')}}" onclick="event.preventDefault(); document.getElementById('categoria-form').submit();">
+                <i class="fa fa-list"></i> Categorías</a>
+                <form id="categoria-form" action="{{url('category')}}" method="GET" style="display: none;">
+                    {{csrf_field()}}
+                </form>
             </li>
-<!--
+            
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-tasks"></i> Productos</a>
+                <a class="nav-link" href="{{url('product')}}" onclick="event.preventDefault(); document.getElementById('product-form').submit();">
+                <i class="fa fa-tasks"></i> Productos</a>
+                <form id="product-form" action="{{url('product')}}" method="GET" style="display: none;">
+                    {{csrf_field()}}
+                </form>
             </li>
 
-
+<!--
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i> Compras</a>
             </li>
