@@ -11,21 +11,19 @@
         <div class="card">
             <div class="card-header">
                 <h2>Listado de Categorías</h2><br />
-                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#abrirmodal">
+                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#openmodal">
                     <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Categoría
                 </button>
             </div>
             <div class="card-body">
                 <div class="form-group row">
                     <div class="col-md-6">
+                        {!! Form::open(array('url'=>'category','method'=>'GET','autocomplete'=>'off','role'=>'serch'))!!}
                         <div class="input-group">
-                            <select class="form-control col-md-3">
-                                <option value="nombre">Categoría</option>
-                                <option value="descripcion">Descripción</option>
-                            </select>
-                            <input type="text" class="form-control" placeholder="Buscar texto">
+                            <input type="text" name="searchText" class="form-control" placeholder="Buscar texto" value="{{$searchText}}">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                         </div>
+                        {{Form::close()}}
                     </div>
                 </div>
                 <table class="table table-bordered table-striped table-sm">
@@ -39,31 +37,43 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
-                    @foreach($categories as $cat)
+
+                        @foreach($categories as $cat)
 
                         <tr>
                             <td>{{$cat->name}}</td>
                             <td>{{$cat->description}}</td>
                             <td>
+
+                            @if($cat->condition=='1')
                                 <button type="button" class="btn btn-success btn-md">
                                     <i class="fa fa-check fa-2x"></i> Activo
                                 </button>
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#abrirmodal">
-                                    <i class="fa fa-edit fa-2x"></i> Editar
-                                </button> &nbsp;
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm">
-                                    <i class="fa fa-lock fa-2x"></i> Desactivar
+                            @else
+                                <button type="button" class="btn btn-danger btn-md">
+                                    <i class="fa fa-check fa-2x"></i> Desactivar
                                 </button>
+                            @endif
+
+                                <td>
+                                    <button type="button" class="btn btn-info btn-md" data-id_category="{{$cat->id}}" data-name="{{$cat->name}}" data-description="{{$cat->description}}" data-toggle="modal" data-target="#openmodalEdit">
+                                        <i class="fa fa-edit fa-2x"></i> Editar
+                                    </button> &nbsp;
+                                </td>
+
+                            @if($cat->condition)
+                                <button type="button" class="btn btn-danger btn-md">
+                                    <i class="fa fa-check fa-2x"></i> Desactivar
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-success btn-md">
+                                    <i class="fa fa-check fa-2x"></i> Activo
+                                </button>
+                            @endif
                             </td>
                         </tr>
-
-                    @endforeach
-
+                        @endforeach
                     </tbody>
                 </table>
 
@@ -73,8 +83,8 @@
         </div>
         <!-- Fin ejemplo de tabla Listado -->
     </div>
-    <!--Inicio del modal agregar/actualizar-->
-    <div class="modal fade" id="abrirmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <!--Inicio del modal agregar-->
+    <div class="modal fade" id="openmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-primary modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -84,36 +94,79 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group row div-error">
-                        <div class="text-center text-error">
-                            <div></div>
-                        </div>
-                    </div>
-                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-md-3 form-control-label" for="text-input">Categoría</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Nombre de categoría">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
-                            <div class="col-md-9">
-                                <input type="email" class="form-control" placeholder="Ingrese descripcion">
-                            </div>
-                        </div>
+                    <form action="{{route('category.store')}}" method="post" class="form-horizontal">
+
+                        {{csrf_field()}}
+                        @include('category.form')
+
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success"><i class="fa fa-save fa-2x"></i> Guardar</button>
                 </div>
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!--Fin del modal-->
+    <!--Fin del modal Add-->
+    <!--Inicio del modal Edit-->
+    <div class="modal fade" id="openmodalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-primary modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Actualizar categoría</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('category.update','test')}}" method="post" class="form-horizontal">
+
+                        {{method_field('patch')}}
+                        {{csrf_field()}}
+
+                        <input type="hidden" id="id_category" name="id_category" value="">
+
+                        @include('category.form')
+
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--Fin modal Edit-->
+    <!--Inicio del modal State-->
+    <div class="modal fade" id="openmodalState" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-primary modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cambiar Estado</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('category.destroy','test')}}" method="post" class="form-horizontal">
+
+                        {{method_field('delete')}}
+                        {{csrf_field()}}
+
+                        <input type="hidden" id="id_category" name="id_category" value="">
+
+                        <p>Estas seguro de desactivar el Estado?</p>
+                        <div>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i>Cerrar</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-lock fa-2x"></i>Aceptar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--Fin modal destroy-->
 </main>
 
 @endsection

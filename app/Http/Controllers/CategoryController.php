@@ -34,9 +34,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $category = new Category();
-        $category-> name = $request-> name;
-        $category-> description = $request-> description;
-        $category-> condition = '1';
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->condition = '1';
         $category-> save();
         return Redirect::to("category");
     }
@@ -50,10 +50,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request)
     {
-        $category = Category::findOrFail($request-> id_category);
-        $category-> name = $request-> name;
-        $category-> description = $request-> description;
-        $category-> condition = '1';
+        $category = Category::findOrFail($request->id_category);
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->condition = '1';
         $category-> save();
         return Redirect::to("category");
     }
@@ -66,14 +66,14 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request)
     {
-        $category =  Category::findOrFail($request-> id_category);
+        $category =  Category::findOrFail($request->id_category);
 
-        if($category-> condition == '1') {
-            $category-> condition  = '0';
-            $category-> save();
+        if($category->condition == '1') {
+            $category->condition  = '0';
+            $category->save();
         } else {
-            $category-> condition = '1';
-            $category-> save();
+            $category->condition = '1';
+            $category->save();
             return Redirect::to("category");
         }
     }

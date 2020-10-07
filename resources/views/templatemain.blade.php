@@ -16,14 +16,14 @@
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
-<header class="app-header navbar">
+    <header class="app-header navbar">
         <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
-          <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <!--PONER LOGO-->
         <!--<a class="navbar-brand" href="#"></a>-->
         <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
-          <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="nav navbar-nav d-md-down-none">
             <li class="nav-item px-3">
@@ -42,9 +42,8 @@
                     <div class="dropdown-header text-center">
                         <strong>Cuenta</strong>
                     </div>
-                    <a class="dropdown-item" href=""
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fa fa-lock"></i> Cerrar sesión</a>
+                    <a class="dropdown-item" href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fa fa-lock"></i> Cerrar sesión</a>
 
                     <form id="logout-form" action="" method="POST" style="display: none;">
 
@@ -56,10 +55,10 @@
 
     <div class="app-body">
 
-    @include('templates.sidebar')
+        @include('templates.sidebar')
 
         <!-- Contenido Principal -->
-    @yield('inside_content')
+        @yield('inside_content')
         <!-- /Fin del contenido principal -->
     </div>
 
@@ -77,6 +76,27 @@
     <script src="{{asset('js/Chart.min.js')}}"></script>
     <!-- GenesisUI main scripts -->
     <script src="{{asset('js/template.js')}}"></script>
+    <!-- Modal Edit-->
+    <script>
+        $('#openmodalEdit').on('show.bs.modal', function(event) {
+            //console.log('modal-body #name');
+
+            var button = $(event.relatedTarget)
+            var name_modal_edit = button.data('name')
+            var description_modal_edit = button.data('description')
+            var id_category = button.data('id_category')
+            var modal = $(this)
+            //modal.find('.modal-body').text('New message to ' + recipient)
+            modal.find('.modal-body #name').val(name_modal_edit);
+            modal.find('.modal-body #description').val(description_modal_edit);
+            modal.find('.modal-body #id_category').val(id_category);
+        })
+
+    /*******************Change State *************************************/    
+    $('#openmodelState').on('show.bs.modal'), function(event) {
+        
+    }
+    </script>
 </body>
 
 </html>

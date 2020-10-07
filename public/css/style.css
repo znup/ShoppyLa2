@@ -8998,8 +8998,8 @@ app-root {
     z-index: 1020;
     width: 100%;
     text-align: center;
-    background-color: #fff;
-    border-bottom: 1px solid #c2cfd6; }
+    background-color: #999;
+    border-bottom: 1px solid #999; }
     .app-header.navbar .navbar-toggler {
       color: #536c79; }
     .app-header.navbar .navbar-brand {
