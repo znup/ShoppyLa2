@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\Category;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 
 class CategoryController extends Controller
 {
@@ -16,12 +17,13 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        if($request) {
+        $pagines = Config::get("pagines");
+        if ($request) {
             $sql = trim($request->get('searchText'));
             $categories = DB::table('categories')->where('name', 'LIKE', '%'.$sql.'%')
-            ->orderBy('id', 'desc')
-            ->paginate(3);
-            return view('category.index',["categories"=>$categories,"searchText"=>$sql]);
+                ->orderBy('id', 'desc')
+                ->paginate=$pagines;
+            return view('category.index',["categories"=> $categories, "searchText"=> $sql]);
         }
     }
 
@@ -36,7 +38,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->condition = '1';
+        $category->conditionState = '1';
         $category-> save();
         return Redirect::to("category");
     }
@@ -53,7 +55,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($request->id_category);
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->condition = '1';
+        $category->conditionState = '1';
         $category-> save();
         return Redirect::to("category");
     }
@@ -68,11 +70,11 @@ class CategoryController extends Controller
     {
         $category =  Category::findOrFail($request->id_category);
 
-        if($category->condition == '1') {
-            $category->condition  = '0';
+        if ($category->conditionState == '1') {
+            $category->conditionState  = '0';
             $category->save();
         } else {
-            $category->condition = '1';
+            $category->conditionState = '1';
             $category->save();
             return Redirect::to("category");
         }

@@ -38,14 +38,14 @@
                     </thead>
                     <tbody>
 
-                        @foreach($categories as $cat)
+                        @foreach ($categories as $categori)
 
                         <tr>
-                            <td>{{$cat->name}}</td>
-                            <td>{{$cat->description}}</td>
+                            <td>{{$categori->name}}</td>
+                            <td>{{$categori->description}}</td>
                             <td>
 
-                            @if($cat->condition=='1')
+                            @if ($categori->conditionState=='1')
                                 <button type="button" class="btn btn-success btn-md">
                                     <i class="fa fa-check fa-2x"></i> Activo
                                 </button>
@@ -57,12 +57,12 @@
                             @endif
 
                                 <td>
-                                    <button type="button" class="btn btn-info btn-md" data-id_category="{{$cat->id}}" data-name="{{$cat->name}}" data-description="{{$cat->description}}" data-toggle="modal" data-target="#openmodalEdit">
+                                    <button type="button" class="btn btn-info btn-md" data-id_category="{{$categori->id}}" data-name="{{$categori->name}}" data-description="{{$categori->description}}" data-toggle="modal" data-target="#openmodalEdit">
                                         <i class="fa fa-edit fa-2x"></i> Editar
                                     </button> &nbsp;
                                 </td>
 
-                            @if($cat->condition)
+                            @if ($categori->conditionState)
                                 <button type="button" class="btn btn-danger btn-md">
                                     <i class="fa fa-check fa-2x"></i> Desactivar
                                 </button>
