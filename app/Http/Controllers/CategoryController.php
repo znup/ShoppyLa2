@@ -22,7 +22,7 @@ class CategoryController extends Controller
             $sql = trim($request->get('searchText'));
             $categories = DB::table('categories')->where('name', 'LIKE', '%'.$sql.'%')
                 ->orderBy('id', 'desc')
-                ->paginate(2);
+                ->paginate(3);
             return view('category.index',["categories"=> $categories, "searchText"=> $sql]);
         }
     }
