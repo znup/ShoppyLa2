@@ -38,36 +38,35 @@
                     </thead>
                     <tbody>
 
-                        @foreach ($categories as $categori)
+                        @foreach ($categories as $category)
 
                         <tr>
-                            <td>{{$categori->name}}</td>
-                            <td>{{$categori->description}}</td>
+                            <td>{{$category->name}}</td>
+                            <td>{{$category->description}}</td>
                             <td>
 
-                            @if ($categori->conditionState=='1')
+                            @if ($category->conditionState=='1')
                                 <button type="button" class="btn btn-success btn-md">
                                     <i class="fa fa-check fa-2x"></i> Activo
                                 </button>
-                            </td>
                             @else
                                 <button type="button" class="btn btn-danger btn-md">
                                     <i class="fa fa-check fa-2x"></i> Desactivar
                                 </button>
                             @endif
-
-                                <td>
-                                    <button type="button" class="btn btn-info btn-md" data-id_category="{{$categori->id}}" data-name="{{$categori->name}}" data-description="{{$categori->description}}" data-toggle="modal" data-target="#openmodalEdit">
-                                        <i class="fa fa-edit fa-2x"></i> Editar
-                                    </button> &nbsp;
-                                </td>
-
-                            @if ($categori->conditionState)
-                                <button type="button" class="btn btn-danger btn-md">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-md" data-id_category="{{$category->id}}" data-name="{{$category->name}}" data-description="{{$category->description}}" data-toggle="modal" data-target="#openmodalEdit">
+                                    <i class="fa fa-edit fa-2x"></i> Editar
+                                </button> &nbsp;
+                            </td>
+                            <td>
+                            @if ($category->conditionState)
+                                <button type="button" class="btn btn-danger btn-sm" data-id_category="{{$category->id}}" data-toggle="modal" data-target="#openmodalState">
                                     <i class="fa fa-check fa-2x"></i> Desactivar
                                 </button>
                             @else
-                                <button type="button" class="btn btn-success btn-md">
+                                <button type="button" class="btn btn-success btn-sm" data-id_category="{{$category->id}}" data-toggle="modal" data-target="#openmodalState">
                                     <i class="fa fa-check fa-2x"></i> Activo
                                 </button>
                             @endif
@@ -154,7 +153,7 @@
                         <input type="hidden" id="id_category" name="id_category" value="">
 
                         <p>Estas seguro de desactivar el Estado?</p>
-                        <div>
+                        <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i>Cerrar</button>
                             <button type="submit" class="btn btn-success"><i class="fa fa-lock fa-2x"></i>Aceptar</button>
                         </div>

@@ -17,12 +17,12 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $pagines = Config::get("pagines");
+        $pages = Config::get("PAGINES");
         if ($request) {
             $sql = trim($request->get('searchText'));
             $categories = DB::table('categories')->where('name', 'LIKE', '%'.$sql.'%')
                 ->orderBy('id', 'desc')
-                ->paginate=$pagines;
+                ->paginate(2);
             return view('category.index',["categories"=> $categories, "searchText"=> $sql]);
         }
     }
@@ -41,6 +41,7 @@ class CategoryController extends Controller
         $category->conditionState = '1';
         $category-> save();
         return Redirect::to("category");
+        
     }
 
     /**
@@ -70,9 +71,10 @@ class CategoryController extends Controller
     {
         $category =  Category::findOrFail($request->id_category);
 
-        if ($category->conditionState == '1') {
+        if ($category->conditionState == "1") {
             $category->conditionState  = '0';
             $category->save();
+            return Redirect::to("category");
         } else {
             $category->conditionState = '1';
             $category->save();
