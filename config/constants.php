@@ -1,6 +1,6 @@
 <?php
 
 return [
-    "IVA" => 16,
-    "PAGINES" => 3
+    'IVA' => 16,
+    'PAGINES' => 3
 ];
