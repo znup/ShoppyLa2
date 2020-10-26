@@ -6,27 +6,34 @@ use Illuminate\Http\Request;
 use \App\Category;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
-//use Illuminate\Support\Facades\Config;
+use \App\Utils\Constants;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
-    {
-        //$pages = Config::get('PAGINES');
+    {     
         if ($request) {
             $sql = trim($request->get('searchText'));
-            $categories = DB::table('categories')->where('name', 'LIKE', '%' . $sql . '%')
+            $categories = DB::table('categories')
+                ->where('name', 'LIKE', '%' . $sql . '%')
                 ->orderBy('id', 'desc')
-                ->paginate(10);
-            return view('category.index', ["categories" => $categories, "searchText" => $sql]);
-            }
+                ->paginate(Constants::PAGINES);
+            $view = view('categories.index', ["categories" => $categories, "searchText" => $sql]);
+            
+            return $view;
+        }
     }
     public function searcher(Request $request)
     {
-        $categories = Category::where('categories', 'LIKE', $request->searchText . '%')
-            ->take(10)
-            ->get();
-        return view('category.index', ["categories" => $categories, "searchText" => $categories]);
+        $data = [];
+        if ($request -> has('q')) {
+            $search = $request->q;
+            $data = DB::table("categories")
+                        ->select("id", "name")
+                        ->where('name', 'LIKE', "%$search%")
+                        ->get();
+        }
+        return response()->json($data);
     }
     public function store(Request $request)
     {
@@ -35,7 +42,7 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->conditionState = '1';
         $category->save();
-        return Redirect::to("category");
+        return Redirect::to("categories");
     }
     public function update(Request $request)
     {
@@ -45,7 +52,8 @@ class CategoryController extends Controller
         $category->conditionState = '1';
         $category->save();
         //return Redirect::to("category");
-        return redirect()->route('category.index');
+        return redirect()->route('categories.index');
+        //return response($category, 'category');
     }
     public function destroy(Request $request)
     {
@@ -53,11 +61,11 @@ class CategoryController extends Controller
         if ($category->conditionState == "1") {
             $category->conditionState  = '0';
             $category->save();
-            return Redirect::to("category");
+            return Redirect::to("categories");
         } else {
             $category->conditionState = '1';
             $category->save();
-            return Redirect::to("category");
+            return Redirect::to("categories");
         }
     }
 }

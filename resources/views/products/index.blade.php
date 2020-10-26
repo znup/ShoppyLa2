@@ -14,30 +14,33 @@
                 <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#openmodal">
                     <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Producto
                 </button>
+                
                 <h6>
                     @if($searchText)
-                    <div class="alert alert-primary" role="alert">
-                        Los Resultados de la Búsqueda "{{$searchText}}" son:
-                    </div>
+                        <div class="alert alert-primary" role="alert">
+                            Los Resultados de la Búsqueda "{{$searchText}}" son:
+                        </div>
                     @endif
                 </h6>
             </div>
+
             <div class="card-body">
                 <div class="form-group row">
                     <div class="col-md-6">
-                        {!! Form::open(array('url'=>'product','method'=>'GET','autocomplete'=>'off','role'=>'serch'))!!}
-                        <div class="input-group">
-                            <input type="text" id="searchText" name="searchText" class="form-control" placeholder="Buscar texto" value="{{$searchText}}">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
-                        </div>
-                        <div id="results"></div>
+                        {!! Form::open(array('url'=>'products','method'=>'GET','autocomplete'=>'off','role'=>'search'))!!}
+                            <div class="input-group">
+                                <input type="text" id="searchText" name="searchText" class="form-control" placeholder="Buscar texto" value="{{$searchText}}">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                            </div>
+                            <div id="results"></div>
                         {{Form::close()}}
                     </div>
                 </div>
+                
                 <table class="table table-bordered table-striped table-sm">
                     <thead>
                         <tr class="bg-primary">
-                        <th>Categoria</th>
+                            <th>Categoria</th>
                             <th>Producto</th>
                             <th>Código</th>
                             <th>Precio Venta (MXN$)
@@ -48,26 +51,27 @@
                             <th>Cambiar Estado</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @foreach ($products as $product)
-                        <tr>
-                            <td>{{$product->category}}</td>
-                            <td>{{$product->name}}</td>
-                            <td>{{$product->code}}</td>
-                            <td>{{$product->sale_price}}</td>
-                            <td>{{$product->stock}}</td>
-                            <td>
+                            <tr>
+                                <td>{{$product->category}}</td>
+                                <td>{{$product->name}}</td>
+                                <td>{{$product->code}}</td>
+                                <td>{{$product->sale_price}}</td>
+                                <td>{{$product->stock}}</td>
+                                <td>
                                 <img src="{{asset('storage/img/product/'.$product->image)}}" id="image1" alt="{{$product->name}}" class="img-responsive" width="100px" height="100px">
                             </td>
                             <td>
                                 @if ($product->condition_state=='1')
-                                <button type="button" class="btn btn-success btn-md">
-                                    <i class="fa fa-check fa-2x"></i> Activo
-                                </button>
+                                    <button type="button" class="btn btn-success btn-md">
+                                        <i class="fa fa-check fa-2x"></i> Activo
+                                    </button>
                                 @else
-                                <button type="button" class="btn btn-danger btn-md">
-                                    <i class="fa fa-check fa-2x"></i> Desactivar
-                                </button>
+                                    <button type="button" class="btn btn-danger btn-md">
+                                        <i class="fa fa-check fa-2x"></i> Desactivar
+                                    </button>
                                 @endif
                             </td>
                             <td>
@@ -77,13 +81,13 @@
                             </td>
                             <td>
                                 @if ($product->condition_state)
-                                <button type="button" class="btn btn-danger btn-sm" data-id_product="{{$product->id}}" data-toggle="modal" data-target="#openmodalState">
-                                    <i class="fa fa-check fa-2x"></i> Desactivar
-                                </button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-id_product="{{$product->id}}" data-toggle="modal" data-target="#openmodalState">
+                                        <i class="fa fa-check fa-2x"></i> Desactivar
+                                    </button>
                                 @else
-                                <button type="button" class="btn btn-success btn-sm" data-id_product="{{$product->id}}" data-toggle="modal" data-target="#openmodalState">
-                                    <i class="fa fa-check fa-2x"></i> Activo
-                                </button>
+                                    <button type="button" class="btn btn-success btn-sm" data-id_product="{{$product->id}}" data-toggle="modal" data-target="#openmodalState">
+                                        <i class="fa fa-check fa-2x"></i> Activo
+                                    </button>
                                 @endif
                             </td>
                         </tr>
@@ -106,9 +110,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('product.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('products.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        @include('product.form')
+                        @include('products.form')
                     </form>
                 </div>
             </div>
@@ -128,11 +132,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('product.update','test')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('products.update','test')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                         {{method_field('patch')}}
                         {{csrf_field()}}
-                        <input type="hidden" id="id_product" name="id_product" value="">
-                        @include('product.form')
+                            <input type="hidden" id="id_product" name="id_product" value="">
+                        @include('products.form')
                     </form>
                 </div>
             </div>
@@ -152,14 +156,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('product.destroy','test')}}" method="post" class="form-horizontal">
+                    <form action="{{route('products.destroy','test')}}" method="post" class="form-horizontal">
                         {{method_field('delete')}}
                         {{csrf_field()}}
-                        <input type="hidden" id="id_product" name="id_product" value="">
-                        <p>Estas seguro de desactivar el Estado del Producto?</p>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i>Cerrar</button>
-                            <button type="submit" class="btn btn-success"><i class="fa fa-lock fa-2x"></i>Aceptar</button>
+                            <input type="hidden" id="id_product" name="id_product" value="">
+                            <p>Estas seguro de desactivar el Estado del Producto?</p>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i>Cerrar</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-lock fa-2x"></i>Aceptar</button>
                         </div>
                     </form>
                 </div>

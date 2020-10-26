@@ -11,33 +11,35 @@
                 Menú
             </li>
 
-
             <li class="nav-item">
-                <a class="nav-link" href="{{url('category')}}" onclick="event.preventDefault(); document.getElementById('categoria-form').submit();">
+                <a class="nav-link" href="{{url('categories')}}" onclick="event.preventDefault(); document.getElementById('categories-form').submit();">
                 <i class="fa fa-list"></i> Categorías</a>
-                <form id="categoria-form" action="{{url('category')}}" method="GET" style="display: none;">
+                <form id="categories-form" action="{{url('categories')}}" method="GET" style="display: none;">
                     {{csrf_field()}}
                 </form>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="{{url('product')}}" onclick="event.preventDefault(); document.getElementById('product-form').submit();">
+                <a class="nav-link" href="{{url('products')}}" onclick="event.preventDefault(); document.getElementById('products-form').submit();">
                 <i class="fa fa-tasks"></i> Productos</a>
-                <form id="product-form" action="{{url('product')}}" method="GET" style="display: none;">
+                <form id="products-form" action="{{url('products')}}" method="GET" style="display: none;">
                     {{csrf_field()}}
                 </form>
             </li>
 
-<!--
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i> Compras</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-users"></i> Proveedores</a>
+                <a class="nav-link" href="{{url('suppliers')}}" onclick="event.preventDefault();
+                document.getElementById('supplier-form').submit;"><i class="fa fa-users"></i> Proveedores</a>
+                <form id="supplier-form" action="{{url('suppliers')}}" method="GET" style="display: none;">
+                    {{csrf_field()}}
+                </form>
             </li>
 
-
+<!--
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa fa-suitcase"></i> Ventas</a>
             </li>

@@ -7,13 +7,13 @@ use \App\Product;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Utils\Constants;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
         if ($request) {
-            //$products = Product::where('name', 'LIKE', $request->searchText . '%')->take(10)->get();
             $sql = trim($request->get('searchText'));
             $products = DB::table('products as product')
                 ->join('categories as category', 'product.category_id', '=', 'category.id')
@@ -31,12 +31,12 @@ class ProductController extends Controller
                 ->where('product.name', 'LIKE', '%' . $sql . '%')
                 ->orwhere('product.code', 'LIKE', '%' . $sql . '%')
                 ->orderBy('product.id', 'desc')
-                ->paginate(5);
+                ->paginate(Constants::PAGINES);
 
             $categories = DB::table('categories')
                 ->select('id', 'name', 'description')
                 ->where('conditionState', '=', '1')->get();
-            return view('product.index', ["products" => $products, "categories" => $categories, "searchText" => $sql]);
+            return view('products.index', ["products" => $products, "categories" => $categories, "searchText" => $sql]);
         }
     }
     public function store(Request $request)
@@ -59,7 +59,7 @@ class ProductController extends Controller
         }
         $product->image = $fileNameToStore;
         $product->save();
-        return Redirect::to("product");
+        return Redirect::to("products");
     }
     public function update(Request $request)
     {
@@ -84,7 +84,7 @@ class ProductController extends Controller
         }
         $product->image = $fileNameToStore;
         $product->save();
-        return Redirect::to("product");
+        return Redirect::to("products");
     }
     public function destroy(Request $request)
     {
@@ -92,11 +92,11 @@ class ProductController extends Controller
         if ($product->condition_state == "1") {
             $product->condition_state  = '0';
             $product->save();
-            return Redirect::to("product");
+            return Redirect::to("products");
         } else {
             $product->condition_state = '1';
             $product->save();
-            return Redirect::to("product");
+            return Redirect::to("products");
         }
     }
 }

@@ -14,26 +14,33 @@
                 <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#openmodal">
                     <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Categoría
                 </button>
+                
                 <h6>
                     @if($searchText)
-                    <div class="alert alert-primary" role="alert">
-                        Los Resultados de la Búsqueda "{{$searchText}}" son:
-                    </div>
+                        <div class="alert alert-primary" role="alert">
+                            Los Resultados de la Búsqueda "{{$searchText}}" son:
+                        </div>
                     @endif
                 </h6>
             </div>
+
             <div class="card-body">
                 <div class="form-group row">
                     <div class="col-md-6">
-                        {!! Form::open(array('url'=>'category','method'=>'GET','autocomplete'=>'off','role'=>'serch'))!!}
-                        <div class="input-group">
-                            <input type="text" id="searchText" name="searchText" class="form-control" placeholder="Buscar texto" value="{{$searchText}}">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
-                        </div>
+                        {!! Form::open(array('url'=>'categories','method'=>'GET','autocomplete'=>'off','role'=>'search'))!!}
+                            <div class="input-group">
+                                <!--<input type="text" id="searchText" name="searchText" class="itemName form-control" placeholder="Buscar..." value="{{$searchText}}">
+                                <select class="itemName form-control" style="width:500px;" name="itemName" id="categories"></select>-->
+                                <select type="text" id="searchText" name="searchText" class="chosen-select form-control" placeholder="Buscar..." value="{{$searchText}}"></select>
+                    <!--            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>-->
+                            </div>
                         <div id="results"></div>
+                        <div>
+                        </div>
                         {{Form::close()}}
                     </div>
                 </div>
+
                 <table class="table table-bordered table-striped table-sm">
                     <thead>
                         <tr class="bg-primary">
@@ -44,20 +51,21 @@
                             <th>Cambiar Estado</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         @foreach ($categories as $category)
-                        <tr>
-                            <td>{{$category->name}}</td>
-                            <td>{{$category->description}}</td>
-                            <td>
+                            <tr>
+                                <td>{{$category->name}}</td>
+                                <td>{{$category->description}}</td>
+                                <td>
                                 @if ($category->conditionState=='1')
-                                <button type="button" class="btn btn-success btn-md">
-                                    <i class="fa fa-check fa-2x"></i> Activo
-                                </button>
+                                    <button type="button" class="btn btn-success btn-md">
+                                        <i class="fa fa-check fa-2x"></i> Activo
+                                    </button>
                                 @else
-                                <button type="button" class="btn btn-danger btn-md">
-                                    <i class="fa fa-check fa-2x"></i> Desactivar
-                                </button>
+                                    <button type="button" class="btn btn-danger btn-md">
+                                        <i class="fa fa-check fa-2x"></i> Desactivar
+                                    </button>
                                 @endif
                             </td>
                             <td>
@@ -67,13 +75,13 @@
                             </td>
                             <td>
                                 @if ($category->conditionState)
-                                <button type="button" class="btn btn-danger btn-sm" data-id_category="{{$category->id}}" data-toggle="modal" data-target="#openmodalState">
-                                    <i class="fa fa-check fa-2x"></i> Desactivar
-                                </button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-id_category="{{$category->id}}" data-toggle="modal" data-target="#openmodalState">
+                                        <i class="fa fa-check fa-2x"></i> Desactivar
+                                    </button>
                                 @else
-                                <button type="button" class="btn btn-success btn-sm" data-id_category="{{$category->id}}" data-toggle="modal" data-target="#openmodalState">
-                                    <i class="fa fa-check fa-2x"></i> Activo
-                                </button>
+                                    <button type="button" class="btn btn-success btn-sm" data-id_category="{{$category->id}}" data-toggle="modal" data-target="#openmodalState">
+                                        <i class="fa fa-check fa-2x"></i> Activo
+                                    </button>
                                 @endif
                             </td>
                         </tr>
@@ -96,9 +104,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('category.store')}}" method="post" class="form-horizontal">
+                    <form action="{{route('categories.store')}}" method="post" class="form-horizontal">
                         {{csrf_field()}}
-                        @include('category.form')
+                        @include('categories.form')
                     </form>
                 </div>
             </div>
@@ -118,11 +126,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('category.update','test')}}" method="post" class="form-horizontal">
+                    <form action="{{route('categories.update','test')}}" method="post" class="form-horizontal">
                         {{method_field('patch')}}
                         {{csrf_field()}}
-                        <input type="hidden" id="id_category" name="id_category" value="">
-                        @include('category.form')
+                            <input type="hidden" id="id_category" name="id_category" value="">
+                        @include('categories.form')
                     </form>
                 </div>
             </div>
@@ -142,11 +150,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('category.destroy','test')}}" method="post" class="form-horizontal">
+                    <form action="{{route('categories.destroy','test')}}" method="post" class="form-horizontal">
                         {{method_field('delete')}}
                         {{csrf_field()}}
-                        <input type="hidden" id="id_category" name="id_category" value="">
-                        <p>Estas seguro de desactivar el Estado?</p>
+                            <input type="hidden" id="id_category" name="id_category" value="">
+                            <p>Estas seguro de desactivar el Estado?</p>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-2x"></i>Cerrar</button>
                             <button type="submit" class="btn btn-success"><i class="fa fa-lock fa-2x"></i>Aceptar</button>

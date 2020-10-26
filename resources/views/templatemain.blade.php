@@ -12,6 +12,9 @@
     <link href="{{asset('css/simple-line-icons.min.css')}}" rel="stylesheet">
     <!-- Main styles for this application -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{asset('chosen/chosen.css')}}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
     <header class="app-header navbar">
@@ -67,6 +70,9 @@
     <script src="{{asset('js/template.js')}}"></script>
     <!-- Modal Edit-->
     <script src="{{asset('js/modals.js')}}"></script>
+    <script src="{{asset('js/modalsproduct.js')}}"></script>
     <script src="{{asset('js/keyup.js')}}"></script>
+    <script src="{{asset('chosen/chosen.jquery.js')}}"></script>
+    <script src="{{asset('js/Utils/select.js')}}"></script>
 </body>
 </html>
