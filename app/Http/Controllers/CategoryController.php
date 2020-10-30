@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use \App\Utils\Constants;
 use \App\Http\Resources\Category as CategoryResources;
 use \App\Http\Requests\Category as CategoryRequests;
+use App\Http\Resources\CategoryCollection;
 
 class CategoryController extends Controller
 {
@@ -21,7 +22,11 @@ class CategoryController extends Controller
 
     public function index()
     {   
-        return $this->category->orderBy('id', 'DESC')->get();
+        return response()->json( 
+            new CategoryCollection( 
+                $this->category->orderBy('id', 'DESC')->get()
+            )    
+        );
     }
     
     public function store(CategoryRequests $request)
