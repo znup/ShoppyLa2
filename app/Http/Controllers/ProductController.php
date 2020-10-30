@@ -13,32 +13,31 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request) {
-            $sql = trim($request->get('searchText'));
-            $products = DB::table('products as product')
-                ->join('categories as category', 'product.category_id', '=', 'category.id')
-                ->select(
-                    'product.id',
-                    'product.category_id',
-                    'product.name',
-                    'product.sale_price',
-                    'product.code',
-                    'product.stock',
-                    'product.image',
-                    'product.condition_state',
-                    'category.name as category'
-                )
-                ->where('product.name', 'LIKE', '%' . $sql . '%')
-                ->orwhere('product.code', 'LIKE', '%' . $sql . '%')
-                ->orderBy('product.id', 'desc')
-                ->paginate(Constants::PAGINES);
+        $sql = trim($request->get('searchText'));
+        $products = DB::table('products as product')
+            ->join('categories as category', 'product.category_id', '=', 'category.id')
+            ->select(
+                'product.id',
+                'product.category_id',
+                'product.name',
+                'product.sale_price',
+                'product.code',
+                'product.stock',
+                'product.image',
+                'product.condition_state',
+                'category.name as category'
+            )
+            ->where('product.name', 'LIKE', '%' . $sql . '%')
+            ->orwhere('product.code', 'LIKE', '%' . $sql . '%')
+            ->orderBy('product.id', 'desc')
+            ->paginate(Constants::PAGINES);
 
-            $categories = DB::table('categories')
-                ->select('id', 'name', 'description')
-                ->where('conditionState', '=', '1')->get();
-            return view('products.index', ["products" => $products, "categories" => $categories, "searchText" => $sql]);
-        }
+        $categories = DB::table('categories')
+            ->select('id', 'name', 'description')
+            ->where('conditionState', '=', '1')->get();
+        return view('products.index', ["products" => $products, "categories" => $categories, "searchText" => $sql]);
     }
+
     public function store(Request $request)
     {
         $product = new Product();
@@ -61,6 +60,7 @@ class ProductController extends Controller
         $product->save();
         return Redirect::to("products");
     }
+
     public function update(Request $request)
     {
         $product = Product::findOrFail($request->id_product);
@@ -86,17 +86,17 @@ class ProductController extends Controller
         $product->save();
         return Redirect::to("products");
     }
+    
     public function destroy(Request $request)
     {
         $product =  Product::findOrFail($request->id_product);
         if ($product->condition_state == "1") {
             $product->condition_state  = '0';
-            $product->save();
-            return Redirect::to("products");
         } else {
             $product->condition_state = '1';
-            $product->save();
-            return Redirect::to("products");
+
         }
+        $product->save();
+        return Redirect::to("products");
     }
 }

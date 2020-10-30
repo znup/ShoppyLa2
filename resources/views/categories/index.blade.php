@@ -29,6 +29,7 @@
                     <div class="col-md-6">
                         {!! Form::open(array('url'=>'categories','method'=>'GET','autocomplete'=>'off','role'=>'search'))!!}
                             <div class="input-group">
+                                <div class="modal-body"></div>
                                 <!--<input type="text" id="searchText" name="searchText" class="itemName form-control" placeholder="Buscar..." value="{{$searchText}}">
                                 <select class="itemName form-control" style="width:500px;" name="itemName" id="categories"></select>-->
                                 <select type="text" id="searchText" name="searchText" class="chosen-select form-control" placeholder="Buscar..." value="{{$searchText}}"></select>
@@ -36,6 +37,10 @@
                             </div>
                         <div id="results"></div>
                         <div>
+                            <input type="text" id="index-form" class="form-control" placeholder="Buscar...">
+                            <button onclick="getData()" id="showView" class="btn btn-primary"><i class="fa fa-search"></i>Mostrar Tabla</button>
+                            <div class="mt-5" id="showView">
+                            </div>
                         </div>
                         {{Form::close()}}
                     </div>

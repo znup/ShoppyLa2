@@ -1,12 +1,14 @@
 <?php
-/*
-use  PHPUnit\Framework\TestCase;
 
+use  PHPUnit\Framework\TestCase;
+/*
 class SearchTest extends TestCase
 {
     public function testSearchWillReturnTheWordParameters()
     {
-        $sut =  new SearchTest();
-        $this->assertEquals("A", $sut-> ('a'));
+        $this->get('categories')
+            ->assertStatus(200)
+            ->assertSee('categories');
     }
-} */
+}
+*/

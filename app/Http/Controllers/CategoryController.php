@@ -7,65 +7,73 @@ use \App\Category;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use \App\Utils\Constants;
+use \App\Http\Resources\Category as CategoryResources;
+use \App\Http\Requests\Category as CategoryRequests;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request)
-    {     
-        if ($request) {
-            $sql = trim($request->get('searchText'));
-            $categories = DB::table('categories')
-                ->where('name', 'LIKE', '%' . $sql . '%')
-                ->orderBy('id', 'desc')
-                ->paginate(Constants::PAGINES);
-            $view = view('categories.index', ["categories" => $categories, "searchText" => $sql]);
+    protected $category;
+
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
+
+    public function index()
+    {   
+        return $this->category->orderBy('id', 'DESC')->get();
+    }
+    
+    public function store(CategoryRequests $request)
+    {
+        $category = \DB::table('categories')
+            ->select('name', 'description', 'conditionState')
+            ->orderBy('name', 'DESC')
+            ->paginate(Constants::PAGINES)
+            ->get()
+            ->toJson();
             
-            return $view;
-        }
+        $category = $this->category->create($request->all());
+
+        return response()->json(new CategoryResources($category), 201);
     }
-    public function searcher(Request $request)
+
+    public function getCategoryById($id)
     {
-        $data = [];
-        if ($request -> has('q')) {
-            $search = $request->q;
-            $data = DB::table("categories")
-                        ->select("id", "name")
-                        ->where('name', 'LIKE', "%$search%")
-                        ->get();
-        }
-        return response()->json($data);
+        $category = DB::table('categories')
+            ->select('id', '%'. $id . '%')
+            ->tojson();
+
+            return $category;
     }
-    public function store(Request $request)
+
+    public function show(Category $category)
     {
-        $category = new Category();
-        $category->name = $request->name;
-        $category->description = $request->description;
-        $category->conditionState = '1';
-        $category->save();
-        return Redirect::to("categories");
+        return response()->json(new CategoryResources ($category), 200);
     }
-    public function update(Request $request)
+
+    public function update(CategoryRequests $request, Category $category)
     {
         $category = Category::findOrFail($request->id_category);
         $category->name = $request->name;
         $category->description = $request->description;
         $category->conditionState = '1';
         $category->save();
-        //return Redirect::to("category");
-        return redirect()->route('categories.index');
-        //return response($category, 'category');
+
+        $category->update($request->all());
+
+        return response()->json(new CategoryResources($category), 200);
     }
-    public function destroy(Request $request)
+
+    public function destroy(Category $category, Request $request)
     {
         $category =  Category::findOrFail($request->id_category);
         if ($category->conditionState == "1") {
             $category->conditionState  = '0';
-            $category->save();
-            return Redirect::to("categories");
         } else {
             $category->conditionState = '1';
-            $category->save();
-            return Redirect::to("categories");
         }
+        $category->save();
+        return response()->json($category, 204);
     }
 }
